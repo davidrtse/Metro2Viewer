@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin\\Release\\net6.0\\publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/ce68029c-e05d-448f-8413-bc70c6d6f032/resourceGroups/appsvc_windows_centralus/providers/Microsoft.Web/sites/davidMetro2Viewer"
+}

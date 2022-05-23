@@ -1,0 +1,7 @@
+C:\Development\Metro2Viewer\bin\Release\net6.0\publish\Metro2Viewer.exe
+C:\Development\Metro2Viewer\bin\Release\net6.0\publish\appsettings.Development.json
+C:\Development\Metro2Viewer\bin\Release\net6.0\publish\appsettings.json
+C:\Development\Metro2Viewer\bin\Release\net6.0\publish\Metro2Viewer.dll
+C:\Development\Metro2Viewer\bin\Release\net6.0\publish\Metro2Viewer.deps.json
+C:\Development\Metro2Viewer\bin\Release\net6.0\publish\Metro2Viewer.runtimeconfig.json
+C:\Development\Metro2Viewer\bin\Release\net6.0\publish\Metro2Viewer.pdb

@@ -1,10 +1,11 @@
+C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.exe
+C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.dll
+C:\Development\Metro2Viewer\obj\Debug\net6.0\Metro2Viewer.pdb
 C:\Development\Metro2Viewer\bin\Debug\net6.0\appsettings.Development.json
 C:\Development\Metro2Viewer\bin\Debug\net6.0\appsettings.json
 C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.staticwebassets.runtime.json
-C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.exe
 C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.deps.json
 C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.runtimeconfig.json
-C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.dll
 C:\Development\Metro2Viewer\bin\Debug\net6.0\Metro2Viewer.pdb
 C:\Development\Metro2Viewer\obj\Debug\net6.0\Metro2Viewer.csproj.AssemblyReference.cache
 C:\Development\Metro2Viewer\obj\Debug\net6.0\Metro2Viewer.GeneratedMSBuildEditorConfig.editorconfig
@@ -22,6 +23,5 @@ C:\Development\Metro2Viewer\obj\Debug\net6.0\scopedcss\bundle\Metro2Viewer.style
 C:\Development\Metro2Viewer\obj\Debug\net6.0\scopedcss\projectbundle\Metro2Viewer.bundle.scp.css
 C:\Development\Metro2Viewer\obj\Debug\net6.0\Metro2Viewer.dll
 C:\Development\Metro2Viewer\obj\Debug\net6.0\refint\Metro2Viewer.dll
-C:\Development\Metro2Viewer\obj\Debug\net6.0\Metro2Viewer.pdb
 C:\Development\Metro2Viewer\obj\Debug\net6.0\Metro2Viewer.genruntimeconfig.cache
 C:\Development\Metro2Viewer\obj\Debug\net6.0\ref\Metro2Viewer.dll
