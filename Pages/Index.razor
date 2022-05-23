@@ -76,6 +76,7 @@
 
                 @if (item.privateInfoChangedBetweenPeriods.Length > 0)
                 {
+                    <br />
                     <label>Info Changed: @item.privateInfoChangedBetweenPeriods</label>
                 }
             </div>
@@ -459,6 +460,70 @@
                     newGrouping.Group1 = item1;
                     newGrouping.Group2 = item2;
                     newGrouping.Group3 = item3;
+                    string privateInfoChanged = "";
+            
+                    if (item2.AccountID.Length > 0)
+                    {
+                        //check item 1 and 2 if anything is different
+                        if (item1.SurName != item2.SurName)
+                            privateInfoChanged += "|SurName";
+                        if (item1.FirstName != item2.FirstName)
+                            privateInfoChanged += "|FirstName";
+                        if (item1.MiddleName != item2.MiddleName)
+                            privateInfoChanged += "|MiddleName";
+                        if (item1.City != item2.City)
+                            privateInfoChanged += "|City";
+                        if (item1.FirstAddress != item2.FirstAddress)
+                            privateInfoChanged += "|FirstAddress";
+                        if (item1.SecondAddress != item2.SecondAddress)
+                            privateInfoChanged += "|SecondAddress";
+                        if (item1.Province != item2.Province)
+                            privateInfoChanged += "|Province";
+                        if (item1.PostalCode != item2.PostalCode)
+                            privateInfoChanged += "|PostalCode";
+                        if (item1.PhoneNumber != item2.PhoneNumber)
+                            privateInfoChanged += "|PhoneNumber";
+                        if (item1.DOB != item2.DOB)
+                            privateInfoChanged += "|DOB";
+                        if (item1.DateOpened != item2.DateOpened)
+                            privateInfoChanged += "|DateOpened";
+                        if (item1.CreditLimit != item2.CreditLimit)
+                            privateInfoChanged += "|CreditLimit";
+                        if (item1.DateClosed != item2.DateClosed)
+                            privateInfoChanged += "|DateClosed";
+                    }
+                    if (item3.AccountID.Length > 0)
+                    {
+                        //check item 1 and 2 if anything is different
+                        if (item1.SurName != item3.SurName || item2.SurName != item3.SurName)
+                            privateInfoChanged += "|SurName";
+                        if (item1.FirstName != item3.FirstName || item2.FirstName != item3.FirstName)
+                            privateInfoChanged += "|FirstName";
+                        if (item1.MiddleName != item3.MiddleName || item2.MiddleName != item3.MiddleName)
+                            privateInfoChanged += "|MiddleName";
+                        if (item1.City != item3.City || item2.City != item3.City)
+                            privateInfoChanged += "|City";
+                        if (item1.FirstAddress != item3.FirstAddress || item2.FirstAddress != item3.FirstAddress)
+                            privateInfoChanged += "|FirstAddress";
+                        if (item1.SecondAddress != item3.SecondAddress || item2.SecondAddress != item3.SecondAddress)
+                            privateInfoChanged += "|SecondAddress";
+                        if (item1.Province != item3.Province || item2.Province != item3.Province)
+                            privateInfoChanged += "|Province";
+                        if (item1.PostalCode != item3.PostalCode || item2.PostalCode != item3.PostalCode)
+                            privateInfoChanged += "|PostalCode";
+                        if (item1.PhoneNumber != item3.PhoneNumber || item2.PhoneNumber != item3.PhoneNumber)
+                            privateInfoChanged += "|PhoneNumber";
+                        if (item1.DOB != item3.DOB || item2.DOB != item3.DOB)
+                            privateInfoChanged += "|DOB";
+                        if (item1.DateOpened != item3.DateOpened || item2.DateOpened != item3.DateOpened)
+                            privateInfoChanged += "|DateOpened";
+                        if (item1.CreditLimit != item3.CreditLimit || item2.CreditLimit != item3.CreditLimit)
+                            privateInfoChanged += "|CreditLimit";
+                        if (item1.DateClosed != item3.DateClosed || item2.DateClosed != item3.DateClosed)
+                            privateInfoChanged += "|DateClosed";
+                    }
+                    newGrouping.privateInfoChangedBetweenPeriods = privateInfoChanged;
+
                     result.Add(newGrouping);
                     item1 = new();
                     item2 = new();
@@ -481,58 +546,74 @@
             newGrouping.Group1 = item1;
             newGrouping.Group2 = item2;
             newGrouping.Group3 = item3;
-            result.Add(newGrouping);
-
             string privateInfoChanged = "";
+
             if (item2.AccountID.Length > 0)
             {
                 //check item 1 and 2 if anything is different
-                if (item1.City != item2.City)
-                    privateInfoChanged += "|City";
-                if (item1.FirstAddress != item2.FirstAddress)
-                    privateInfoChanged += "|FirstAddress";
-                if (item1.SecondAddress != item2.SecondAddress)
-                    privateInfoChanged += "|SecondAddress";
-                if (item1.Province != item2.Province)
-                    privateInfoChanged += "|Province";
-                if (item1.PostalCode != item2.PostalCode)
-                    privateInfoChanged += "|PostalCode";
-                if (item1.PhoneNumber != item2.PhoneNumber)
-                    privateInfoChanged += "|PhoneNumber";
-                if (item1.DOB != item2.DOB)
-                    privateInfoChanged += "|DOB";
-                if (item1.DateOpened != item2.DateOpened)
-                    privateInfoChanged += "|DateOpened";
-                if (item1.CreditLimit != item2.CreditLimit)
-                    privateInfoChanged += "|CreditLimit";
-                if (item1.DateClosed != item2.DateClosed)
-                    privateInfoChanged += "|DateClosed";
+                    if (item1.SurName != item2.SurName)
+                        privateInfoChanged += "|SurName";
+                    if (item1.FirstName != item2.FirstName)
+                        privateInfoChanged += "|FirstName";
+                    if (item1.MiddleName != item2.MiddleName)
+                        privateInfoChanged += "|MiddleName";
+                    if (item1.City != item2.City)
+                        privateInfoChanged += "|City";
+                    if (item1.FirstAddress != item2.FirstAddress)
+                        privateInfoChanged += "|FirstAddress";
+                    if (item1.SecondAddress != item2.SecondAddress)
+                        privateInfoChanged += "|SecondAddress";
+                    if (item1.Province != item2.Province)
+                        privateInfoChanged += "|Province";
+                    if (item1.PostalCode != item2.PostalCode)
+                        privateInfoChanged += "|PostalCode";
+                    if (item1.PhoneNumber != item2.PhoneNumber)
+                        privateInfoChanged += "|PhoneNumber";
+                    if (item1.DOB != item2.DOB)
+                        privateInfoChanged += "|DOB";
+                    if (item1.DateOpened != item2.DateOpened)
+                        privateInfoChanged += "|DateOpened";
+                    if (item1.CreditLimit != item2.CreditLimit)
+                        privateInfoChanged += "|CreditLimit";
+                    if (item1.DateClosed != item2.DateClosed)
+                        privateInfoChanged += "|DateClosed";
             }
             if (item3.AccountID.Length > 0)
             {
                 //check item 1 and 2 if anything is different
-                if (item1.City != item3.City || item2.City != item3.City)
-                    privateInfoChanged += "|City";
-                if (item1.FirstAddress != item3.FirstAddress || item2.FirstAddress != item3.FirstAddress)
-                    privateInfoChanged += "|FirstAddress";
-                if (item1.SecondAddress != item3.SecondAddress || item2.SecondAddress != item3.SecondAddress)
-                    privateInfoChanged += "|SecondAddress";
-                if (item1.Province != item3.Province || item2.Province != item3.Province)
-                    privateInfoChanged += "|Province";
-                if (item1.PostalCode != item3.PostalCode || item2.PostalCode != item3.PostalCode)
-                    privateInfoChanged += "|PostalCode";
-                if (item1.PhoneNumber != item3.PhoneNumber || item2.PhoneNumber != item3.PhoneNumber)
-                    privateInfoChanged += "|PhoneNumber";
-                if (item1.DOB != item3.DOB || item2.DOB != item3.DOB)
-                    privateInfoChanged += "|DOB";
-                if (item1.DateOpened != item3.DateOpened || item2.DateOpened != item3.DateOpened)
-                    privateInfoChanged += "|DateOpened";
-                if (item1.CreditLimit != item3.CreditLimit || item2.CreditLimit != item3.CreditLimit)
-                    privateInfoChanged += "|CreditLimit";
-                if (item1.DateClosed != item3.DateClosed || item2.DateClosed != item3.DateClosed)
-                    privateInfoChanged += "|DateClosed";
+                    if (item1.SurName != item3.SurName || item2.SurName != item3.SurName)
+                        privateInfoChanged += "|SurName";
+                    if (item1.FirstName != item3.FirstName || item2.FirstName != item3.FirstName)
+                        privateInfoChanged += "|FirstName";
+                    if (item1.MiddleName != item3.MiddleName || item2.MiddleName != item3.MiddleName)
+                        privateInfoChanged += "|MiddleName";
+                    if (item1.City != item3.City || item2.City != item3.City)
+                        privateInfoChanged += "|City";
+                    if (item1.FirstAddress != item3.FirstAddress || item2.FirstAddress != item3.FirstAddress)
+                        privateInfoChanged += "|FirstAddress";
+                    if (item1.SecondAddress != item3.SecondAddress || item2.SecondAddress != item3.SecondAddress)
+                        privateInfoChanged += "|SecondAddress";
+                    if (item1.Province != item3.Province || item2.Province != item3.Province)
+                        privateInfoChanged += "|Province";
+                    if (item1.PostalCode != item3.PostalCode || item2.PostalCode != item3.PostalCode)
+                        privateInfoChanged += "|PostalCode";
+                    if (item1.PhoneNumber != item3.PhoneNumber || item2.PhoneNumber != item3.PhoneNumber)
+                        privateInfoChanged += "|PhoneNumber";
+                    if (item1.DOB != item3.DOB || item2.DOB != item3.DOB)
+                        privateInfoChanged += "|DOB";
+                    if (item1.DateOpened != item3.DateOpened || item2.DateOpened != item3.DateOpened)
+                        privateInfoChanged += "|DateOpened";
+                    if (item1.CreditLimit != item3.CreditLimit || item2.CreditLimit != item3.CreditLimit)
+                        privateInfoChanged += "|CreditLimit";
+                    if (item1.DateClosed != item3.DateClosed || item2.DateClosed != item3.DateClosed)
+                        privateInfoChanged += "|DateClosed";
             }
             newGrouping.privateInfoChangedBetweenPeriods = privateInfoChanged;
+
+            result.Add(newGrouping);
+
+            
+
         }
         
         
