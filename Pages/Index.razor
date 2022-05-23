@@ -1,0 +1,492 @@
+﻿@page "/"
+@preservewhitespace true
+
+<PageTitle>Metro 2 Guide Parse</PageTitle>
+
+<h3>Step 1: Select File</h3>
+<InputFile OnChange="@LoadFiles" multiple />
+
+<h3 style="margin-top:50px">Step 2: Check it's loaded and hit Load</h3>
+<div>@loadingTerm</div>
+
+<style>
+    
+</style>
+
+<!--<textarea style="height: 120px; width:100%" placeholder="Metro2 Text"  @bind="metro2Raw"  />-->
+<button @onclick="checkDone">Check if Loaded</button>
+<button @onclick="loadGuide">Load</button>
+
+<h3 style="padding-top:50px">Step 3: Set Filters and hit Filter</h3>
+<input placeholder="AccountID"  @bind="filterAccountID"  />
+<input style="margin-left:50px" placeholder="# to Display (default 100)"  @bind="filterAccountLimit"  />
+<label><input style="margin-left:50px" type="checkbox" @bind="onlyAccountsWithDelinquencies" > Only Deliquent Accounts</label>
+<label><input style="margin-left:50px" type="checkbox" @bind="onlyAccountsWithChargeOff" > Only Charged Off Accounts</label>
+
+<br /><br />
+
+<button @onclick="btnFilter">Filter</button>
+
+
+@foreach (var item in metro2ListToDisplay)
+{
+    <div class="ItemDivs">
+        <div class="DetailsContainer">
+            <div class="DetailsPersonal">
+                <b>@((item.Group1.FirstName + " " + item.Group1.MiddleName + " " + item.Group1.SurName).Replace("  "," "))</b>
+                <br/>
+                @item.Group1.AccountID
+                <br/><br/>
+                @item.Group1.FirstAddress
+                <br/>
+                @if (item.Group1.SecondAddress.Length > 0)
+                {
+                    @item.Group1.SecondAddress
+                    <br/>
+                }
+                
+                @(item.Group1.City + " " + item.Group1.Province + " " + item.Group1.PostalCode + " (" + (item.Group1.ResidenceCode == "O" ? "Owner" : "Rent") + ")")
+                <br/>
+                @item.Group1.PhoneNumber
+                <br/><br/>
+                DOB: @(item.Group1.DOB.Substring(4,4) + "-" + item.Group1.DOB.Substring(0,2) + "-" + item.Group1.DOB.Substring(2,2) )
+                <br/>
+                Credit Limit: @(item.Group1.CreditLimit.TrimStart('0'))
+                <br/>
+                Date Opened:@(item.Group1.DateOpened.Substring(4,4) + "-" + item.Group1.DateOpened.Substring(0,2) + "-" + item.Group1.DateOpened.Substring(2,2) )
+                <br/>
+                Date Close:@(item.Group1.DateClosed.Substring(4,4) + "-" + item.Group1.DateClosed.Substring(0,2) + "-" + item.Group1.DateClosed.Substring(2,2) )
+
+
+            </div>
+            <div class="DetailsPayment">
+                <b>Payment Details</b>
+                <div class="DetailsPaymentTableDiv">
+                    <table class="DetailsPaymentTable">
+                        <tr>
+                            <td style="width:30px">Info dt</td>
+                            <td>Status</td>
+                            <td>Rating</td>
+                            <td>History</td
+                            <td>Comments</td>
+                            <td>Last Pay</td>
+                            <td>Date Closed</td>
+                            <td>Current Bal</td>
+                            <td>Scheduled Payment</td>
+                            <td>Actual Payment</td>
+                            <td>Past Due</td>
+                            <td>DFD</td>
+                            <td>Highest Credit</td>
+                        </tr>
+                        <tr>
+                            <td>@(item.Group1.DateOfAccountInfo.Substring(4,4) + "-" + item.Group1.DateOfAccountInfo.Substring(0,2) + "-" + item.Group1.DateOfAccountInfo.Substring(2,2) )</td>
+                            <td>@item.Group1.AccountStatus</td>
+                            <td>@(item.Group1.PaymentRating.Length > 0? item.Group1.PaymentRating : "-"</td>
+                            <td>@(item.Group1.PaymentHistoryProfile.Length > 0? item.Group1.PaymentHistoryProfile : "-"</td>
+                            <td>@(item.Group1.SpecialComment.Length > 0? item.Group1.SpecialComment : "-"</td>
+                            <td>@(item.Group1.DateOfLastPayment.Length > 0 ? (item.Group1.DateOfLastPayment.Substring(4,4) + "-" + item.Group1.DateOfLastPayment.Substring(0,2) + "-" + item.Group1.DateOfLastPayment.Substring(2,2) ) : "-")</td>
+                            <td>@(item.Group1.DateClosed != "00000000" ? (item.Group1.DateClosed.Substring(4,4) + "-" + item.Group1.DateClosed.Substring(0,2) + "-" + item.Group1.DateClosed.Substring(2,2) ) : "-")</td>
+                            <td>@(item.Group1.CurrentBalance.TrimStart('0').Length > 0? item.Group1.CurrentBalance.TrimStart('0') : "-" )</td>
+                            <td>@(item.Group1.SchedulePaymentAmount.TrimStart('0').Length > 0? item.Group1.SchedulePaymentAmount.TrimStart('0') : "-" )</td>
+                            <td>@(item.Group1.ActualPaymentAmount.TrimStart('0').Length > 0? item.Group1.ActualPaymentAmount.TrimStart('0') : "-" )</td>
+                            <td>@(item.Group1.AmountPastDue.TrimStart('0').Length > 0? item.Group1.AmountPastDue.TrimStart('0') : "-" )</td>
+                            <td>@(item.Group1.DFD.Length > 0 ? (item.Group1.DFD.Substring(4,4) + "-" + item.Group1.DFD.Substring(0,2) + "-" + item.Group1.DFD.Substring(2,2) ) : "-")</td>
+                            <td>@(item.Group1.HighestCredit.TrimStart('0').Length > 0? item.Group1.HighestCredit.TrimStart('0') : "-" )</td>
+                        </tr>
+                        @if (item.Group2.AccountID.Length > 0)
+                        {
+                            <tr>
+                                <td>@(item.Group2.DateOfAccountInfo.Substring(4,4) + "-" + item.Group2.DateOfAccountInfo.Substring(0,2) + "-" + item.Group2.DateOfAccountInfo.Substring(2,2) )</td>
+                                <td>@item.Group2.AccountStatus</td>
+                                <td>@(item.Group2.PaymentRating.Length > 0? item.Group2.PaymentRating : "-"</td>
+                                <td>@(item.Group2.PaymentHistoryProfile.Length > 0? item.Group2.PaymentHistoryProfile : "-"</td>
+                                <td>@(item.Group2.SpecialComment.Length > 0? item.Group2.SpecialComment : "-"</td>
+                                <td>@(item.Group2.DateOfLastPayment.Length > 0 ? (item.Group2.DateOfLastPayment.Substring(4,4) + "-" + item.Group2.DateOfLastPayment.Substring(0,2) + "-" + item.Group2.DateOfLastPayment.Substring(2,2) ) : "-")</td>
+                                <td>@(item.Group2.DateClosed != "00000000" ? (item.Group2.DateClosed.Substring(4,4) + "-" + item.Group2.DateClosed.Substring(0,2) + "-" + item.Group2.DateClosed.Substring(2,2) ) : "-")</td>
+                                <td>@(item.Group2.CurrentBalance.TrimStart('0').Length > 0? item.Group2.CurrentBalance.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group2.SchedulePaymentAmount.TrimStart('0').Length > 0? item.Group2.SchedulePaymentAmount.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group2.ActualPaymentAmount.TrimStart('0').Length > 0? item.Group2.ActualPaymentAmount.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group2.AmountPastDue.TrimStart('0').Length > 0? item.Group2.AmountPastDue.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group2.DFD.Length > 0 ? (item.Group2.DFD.Substring(4,4) + "-" + item.Group2.DFD.Substring(0,2) + "-" + item.Group2.DFD.Substring(2,2) ) : "-")</td>
+                                <td>@(item.Group2.HighestCredit.TrimStart('0').Length > 0? item.Group2.HighestCredit.TrimStart('0') : "-" )</td>
+                            </tr>
+                        }
+                        @if (item.Group3.AccountID.Length > 0)
+                        {
+                            <tr>
+                                <td>@(item.Group3.DateOfAccountInfo.Substring(4,4) + "-" + item.Group3.DateOfAccountInfo.Substring(0,2) + "-" + item.Group3.DateOfAccountInfo.Substring(2,2) )</td>
+                                <td>@item.Group3.AccountStatus</td>
+                                <td>@(item.Group3.PaymentRating.Length > 0? item.Group3.PaymentRating : "-"</td>
+                                <td>@(item.Group3.PaymentHistoryProfile.Length > 0? item.Group3.PaymentHistoryProfile : "-"</td>
+                                <td>@(item.Group3.SpecialComment.Length > 0? item.Group3.SpecialComment : "-"</td>
+                                <td>@(item.Group3.DateOfLastPayment.Length > 0 ? (item.Group3.DateOfLastPayment.Substring(4,4) + "-" + item.Group3.DateOfLastPayment.Substring(0,2) + "-" + item.Group3.DateOfLastPayment.Substring(2,2) ) : "-")</td>
+                                <td>@(item.Group3.DateClosed != "00000000" ? (item.Group3.DateClosed.Substring(4,4) + "-" + item.Group3.DateClosed.Substring(0,2) + "-" + item.Group3.DateClosed.Substring(2,2) ) : "-")</td>
+                                <td>@(item.Group3.CurrentBalance.TrimStart('0').Length > 0? item.Group3.CurrentBalance.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group3.SchedulePaymentAmount.TrimStart('0').Length > 0? item.Group3.SchedulePaymentAmount.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group3.ActualPaymentAmount.TrimStart('0').Length > 0? item.Group3.ActualPaymentAmount.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group3.AmountPastDue.TrimStart('0').Length > 0? item.Group3.AmountPastDue.TrimStart('0') : "-" )</td>
+                                <td>@(item.Group3.DFD.Length > 0 ? (item.Group3.DFD.Substring(4,4) + "-" + item.Group3.DFD.Substring(0,2) + "-" + item.Group3.DFD.Substring(2,2) ) : "-")</td>
+                                <td>@(item.Group3.HighestCredit.TrimStart('0').Length > 0? item.Group3.HighestCredit.TrimStart('0') : "-" )</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+        <br />
+
+        <div class="RawDiv" >        
+            <label>Raw Data:</label>
+            <table class="RawTable">
+                <tr>
+                    <td>Time Stamp</td>
+                    <td>Cycle</td>
+                    <td>AccountID</td>
+                    <td>Date Opened</td>
+                    <td>Credit Limit</td>
+                    <td>Highest Limit</td>
+                    <td>Scheduled Pymnt Amnt</td>
+                    <td>Actual Pymnt Amnt</td>
+                    <td>Status</td>
+                    <td>Pymnt Rating</td>
+                    <td>Pymt History</td>
+                    <td>Special Comment</td>
+                    <td>Current Balance</td>
+                    <td>Amount Past Due</td>
+                    <td>Amount Charge Off</td>
+                    <td>Date Of Info</td>
+                    <td>DFD</td>
+                    <td>Date Closed</td>
+                    <td>Last Payment</td>
+                    <td>Consumer Trans Type</td>
+                    <td>Surname</td>
+                    <td>First Name</td>
+                    <td>Middle Name</td>
+                    <td>Gen Code</td>
+                    <td>DOB</td>
+                    <td>Phone</td>
+                    <td>First Address</td>
+                    <td>Sec Address</td>
+                    <td>City</td>
+                    <td>Prov</td>
+                    <td>PostalCode</td>
+                    <td>Addr Indc</td>
+                    <td>Residence Code</td>
+                </tr>
+                <tr>
+                    <td>@item.Group1.TimeStamp</td>
+                    <td>@item.Group1.CycleIdentifer</td>
+                    <td>@item.Group1.AccountID</td>
+                    <td>@item.Group1.DateOpened</td>
+                    <td>@item.Group1.CreditLimit</td>
+                    <td>@item.Group1.HighestCredit</td>
+                    <td>@item.Group1.SchedulePaymentAmount</td>
+                    <td>@item.Group1.ActualPaymentAmount</td>
+                    <td>@item.Group1.AccountStatus</td>
+                    <td>@item.Group1.PaymentRating</td>
+                    <td>@item.Group1.PaymentHistoryProfile</td>
+                    <td>@item.Group1.SpecialComment</td>
+                    <td>@item.Group1.CurrentBalance</td>
+                    <td>@item.Group1.AmountPastDue</td>
+                    <td>@item.Group1.OriginalChargeoffAmount</td>
+                    <td>@item.Group1.DateOfAccountInfo</td>
+                    <td>@item.Group1.DFD</td>
+                    <td>@item.Group1.DateClosed</td>
+                    <td>@item.Group1.DateOfLastPayment</td>
+                    <td>@item.Group1.ConsumerTransactionType</td>
+                    <td>@item.Group1.SurName</td>
+                    <td>@item.Group1.FirstName</td>
+                    <td>@item.Group1.MiddleName</td>
+                    <td>@item.Group1.GenerationCode</td>
+                    <td>@item.Group1.DOB</td>
+                    <td>@item.Group1.PhoneNumber</td>
+                    <td>@item.Group1.FirstAddress</td>
+                    <td>@item.Group1.SecondAddress</td>
+                    <td>@item.Group1.City</td>
+                    <td>@item.Group1.Province</td>
+                    <td>@item.Group1.PostalCode</td>
+                    <td>@item.Group1.AddressIndicator</td>
+                    <td>@item.Group1.ResidenceCode</td>
+                </tr>
+                @if (item.Group2.AccountID.Length > 0)
+                {
+                    <tr>
+                        <td>@item.Group2.TimeStamp</td>
+                        <td>@item.Group2.CycleIdentifer</td>
+                        <td>@item.Group2.AccountID</td>
+                        <td>@item.Group2.DateOpened</td>
+                        <td>@item.Group2.CreditLimit</td>
+                        <td>@item.Group2.HighestCredit</td>
+                        <td>@item.Group2.SchedulePaymentAmount</td>
+                        <td>@item.Group2.ActualPaymentAmount</td>
+                        <td>@item.Group2.AccountStatus</td>
+                        <td>@item.Group2.PaymentRating</td>
+                        <td>@item.Group2.PaymentHistoryProfile</td>
+                        <td>@item.Group2.SpecialComment</td>
+                        <td>@item.Group2.CurrentBalance</td>
+                        <td>@item.Group2.AmountPastDue</td>
+                        <td>@item.Group2.OriginalChargeoffAmount</td>
+                        <td>@item.Group2.DateOfAccountInfo</td>
+                        <td>@item.Group2.DFD</td>
+                        <td>@item.Group2.DateClosed</td>
+                        <td>@item.Group2.DateOfLastPayment</td>
+                        <td>@item.Group2.ConsumerTransactionType</td>
+                        <td>@item.Group2.SurName</td>
+                        <td>@item.Group2.FirstName</td>
+                        <td>@item.Group2.MiddleName</td>
+                        <td>@item.Group2.GenerationCode</td>
+                        <td>@item.Group2.DOB</td>
+                        <td>@item.Group2.PhoneNumber</td>
+                        <td>@item.Group2.FirstAddress</td>
+                        <td>@item.Group2.SecondAddress</td>
+                        <td>@item.Group2.City</td>
+                        <td>@item.Group2.Province</td>
+                        <td>@item.Group2.PostalCode</td>
+                        <td>@item.Group2.AddressIndicator</td>
+                        <td>@item.Group2.ResidenceCode</td>
+                    </tr>
+                }
+                @if (item.Group3.AccountID.Length > 0)
+                {
+                    <tr>
+                        <td>@item.Group3.TimeStamp</td>
+                        <td>@item.Group3.CycleIdentifer</td>
+                        <td>@item.Group3.AccountID</td>
+                        <td>@item.Group3.DateOpened</td>
+                        <td>@item.Group3.CreditLimit</td>
+                        <td>@item.Group3.HighestCredit</td>
+                        <td>@item.Group3.SchedulePaymentAmount</td>
+                        <td>@item.Group3.ActualPaymentAmount</td>
+                        <td>@item.Group3.AccountStatus</td>
+                        <td>@item.Group3.PaymentRating</td>
+                        <td>@item.Group3.PaymentHistoryProfile</td>
+                        <td>@item.Group3.SpecialComment</td>
+                        <td>@item.Group3.CurrentBalance</td>
+                        <td>@item.Group3.AmountPastDue</td>
+                        <td>@item.Group3.OriginalChargeoffAmount</td>
+                        <td>@item.Group3.DateOfAccountInfo</td>
+                        <td>@item.Group3.DFD</td>
+                        <td>@item.Group3.DateClosed</td>
+                        <td>@item.Group3.DateOfLastPayment</td>
+                        <td>@item.Group3.ConsumerTransactionType</td>
+                        <td>@item.Group3.SurName</td>
+                        <td>@item.Group3.FirstName</td>
+                        <td>@item.Group3.MiddleName</td>
+                        <td>@item.Group3.GenerationCode</td>
+                        <td>@item.Group3.DOB</td>
+                        <td>@item.Group3.PhoneNumber</td>
+                        <td>@item.Group3.FirstAddress</td>
+                        <td>@item.Group3.SecondAddress</td>
+                        <td>@item.Group3.City</td>
+                        <td>@item.Group3.Province</td>
+                        <td>@item.Group3.PostalCode</td>
+                        <td>@item.Group3.AddressIndicator</td>
+                        <td>@item.Group3.ResidenceCode</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+
+
+
+@code {
+
+    private string? metro2Raw;
+    private string? loadingTerm;
+    private string filterAccountID ="";
+    private string filterAccountLimit = "";
+    private bool onlyAccountsWithDelinquencies;
+    private bool onlyAccountsWithChargeOff;
+    private List<Metro2Item> metro2RawList = new();
+    private List<Metro2Groups> metro2ListToDisplay = new();
+
+    private int currentIndex = 0;
+
+    private async void LoadFiles(InputFileChangeEventArgs e)
+    {
+        loadingTerm="starting...";
+        var reader = await new StreamReader(e.File.OpenReadStream(30720000)).ReadToEndAsync();
+        metro2Raw = reader;
+        loadingTerm="done";
+    }
+
+    private void checkDone()
+    {
+        
+    }
+
+    private void btnFilter()
+    {
+        //I should use linq but I'm just going to manually do it
+        //if they give me an accountID to filter, I'd just use that first
+        Console.WriteLine("btnFilter clicked");
+        metro2ListToDisplay.Clear();
+
+        if (filterAccountID.Trim().Length > 0)
+        {
+            var result = (from s in metro2RawList
+                                where s.AccountID == filterAccountID
+                                orderby s.AccountID, s.TimeStamp descending
+                                select s);
+            Console.WriteLine("result count: " + result.Count());
+            
+            metro2ListToDisplay  = loadGrouping(result.ToList());
+        }
+        else
+        {
+            var result = (from s in metro2RawList
+                                orderby s.AccountID, s.TimeStamp descending
+                                select s).ToList();
+
+            int maxDisplay = 100;
+            if (filterAccountLimit.Trim().Length > 0)
+                int.TryParse(filterAccountLimit.Trim(), out maxDisplay);
+            //This isn't efficient but it's easier, so I'm doing it cause I'm lazy
+            List<Metro2Groups> tmp = loadGrouping(result);
+            int counter = 0;
+            foreach (Metro2Groups i in tmp)
+            {
+                bool found = true;
+                if (onlyAccountsWithDelinquencies)
+                {
+                    if (i.Group1.DFD.Length == 0 && i.Group2.DFD.Length == 0 && i.Group3.DFD.Length == 0)
+                        found = false;
+                }
+                if (onlyAccountsWithChargeOff)
+                {
+                    if (i.Group1.AccountStatus != "97" && i.Group2.AccountStatus != "97" && i.Group3.AccountStatus != "97")
+                        found = false;
+                }
+                if (found)
+                {
+                    metro2ListToDisplay.Add(i);
+                    counter++;
+                }
+                if (counter > maxDisplay)
+                    return;
+                    
+            }
+        }
+
+    }
+    
+
+    private List<Metro2Groups> loadGrouping(List<Metro2Item> items)
+    {
+        List<Metro2Groups> result = new();
+        Metro2Item item1 = new();
+        Metro2Item item2 = new();
+        Metro2Item item3 = new();
+
+        for (int i=0;i<items.Count;i++)
+        {
+            if (i==0)
+                item1 = items[i];
+            else 
+            {
+                if (items[i].AccountID != item1.AccountID)
+                {
+                    Metro2Groups newGrouping = new();
+                    newGrouping.Group1 = item1;
+                    newGrouping.Group2 = item2;
+                    newGrouping.Group3 = item3;
+                    result.Add(newGrouping);
+                    item1 = new();
+                    item2 = new();
+                    item3 = new();
+                }
+                if (item1.AccountID == "")
+                    item1 = items[i];
+                else if (item2.AccountID == "")
+                    item2 = items[i];
+                else
+                    item3 = items[i];   
+
+            }
+
+        }
+
+        if (item1.AccountID != "")
+        {
+            Metro2Groups newGrouping = new();
+            newGrouping.Group1 = item1;
+            newGrouping.Group2 = item2;
+            newGrouping.Group3 = item3;
+            result.Add(newGrouping);
+        }
+        return result;
+    }
+
+    private void loadGuide()
+    {
+        Console.WriteLine("----NEW----");
+        metro2RawList.Clear();
+        //parse string
+        using (System.IO.StringReader reader = new System.IO.StringReader(metro2Raw)) 
+        {
+
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                //Console.WriteLine(line);
+                Metro2Item tmp = new Metro2Item();
+                tmp.BlockDescriptorWord = line.Substring(0,4).Trim();
+                tmp.ProcessingIndicator = line.Substring(4,1).Trim();
+                tmp.TimeStamp = line.Substring(5,14).Trim();
+                tmp.CorrectionIndicator = line.Substring(19,1).Trim();
+                tmp.IdNum = line.Substring(20,20).Trim();
+                tmp.CycleIdentifer = line.Substring(40,2).Trim();
+                tmp.AccountID = line.Substring(42,30).Trim();
+                tmp.PortfolioType = line.Substring(72,1).Trim();
+                tmp.AccountType = line.Substring(73,2).Trim();
+                tmp.DateOpened = line.Substring(75,8).Trim();
+                tmp.CreditLimit = line.Substring(83,9).Trim();
+                tmp.HighestCredit = line.Substring(92,9).Trim();
+                tmp.TermDuration = line.Substring(101,3).Trim();
+                tmp.TermFrequency = line.Substring(104,1).Trim();
+                tmp.SchedulePaymentAmount = line.Substring(105,9).Trim();
+                tmp.ActualPaymentAmount = line.Substring(114,9).Trim();
+                tmp.AccountStatus = line.Substring(123,2).Trim();
+                tmp.PaymentRating = line.Substring(125,1).Trim();
+                tmp.PaymentHistoryProfile = line.Substring(126,24).Trim();
+                tmp.SpecialComment = line.Substring(150,2).Trim();
+                tmp.ComplianceConditionCode = line.Substring(152,2).Trim();
+                tmp.CurrentBalance = line.Substring(154,9).Trim();
+                tmp.AmountPastDue = line.Substring(163,9).Trim();
+                tmp.OriginalChargeoffAmount = line.Substring(172,9).Trim();
+                tmp.DateOfAccountInfo = line.Substring(181,8).Trim();
+                tmp.DFD = line.Substring(189,8).Trim();
+                tmp.DateClosed = line.Substring(197,8).Trim();
+                tmp.DateOfLastPayment = line.Substring(205,8).Trim();
+                tmp.CurrencyType = line.Substring(213,17).Trim();
+                tmp.ConsumerTransactionType = line.Substring(230,2).Trim();
+                tmp.SurName = line.Substring(231,25).Trim();
+                tmp.FirstName = line.Substring(256,20).Trim();
+                tmp.MiddleName = line.Substring(276,20).Trim();
+                tmp.GenerationCode = line.Substring(296,1).Trim();
+                tmp.SIN = line.Substring(297,9).Trim();
+                tmp.DOB = line.Substring(306,8).Trim();
+                tmp.PhoneNumber = line.Substring(314,10).Trim();
+                tmp.AssociationCode = line.Substring(324,1).Trim();
+                tmp.ConsumerInfoIndicator = line.Substring(325,2).Trim();
+                tmp.Country = line.Substring(327,2).Trim();
+                tmp.FirstAddress = line.Substring(329,32).Trim();
+                tmp.SecondAddress = line.Substring(361,32).Trim();
+                tmp.City = line.Substring(393,20).Trim();
+                tmp.Province = line.Substring(413,2).Trim();
+                tmp.PostalCode = line.Substring(415,9).Trim();
+                tmp.AddressIndicator = line.Substring(424,1).Trim();
+                tmp.ResidenceCode = line.Substring(425,1).Trim();
+                tmp.Raw = line.Replace(" ","&nbsp;");
+
+                metro2RawList.Add(tmp);
+            }
+        }
+
+
+    }
+}
+
