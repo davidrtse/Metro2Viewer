@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Microsoft.JSInterop
 @preservewhitespace true
 
 <PageTitle>Metro 2 Guide Parse</PageTitle>
@@ -9,23 +10,39 @@
 <h3 style="margin-top:50px">Step 2: Check it's loaded and hit Load</h3>
 <div>@loadingTerm</div>
 
-<style>
-    
-</style>
-
 <!--<textarea style="height: 120px; width:100%" placeholder="Metro2 Text"  @bind="metro2Raw"  />-->
 <button @onclick="checkDone">Check if Loaded</button>
 <button @onclick="loadGuide">Load</button>
 
 <h3 style="padding-top:50px">Step 3: Set Filters and hit Filter</h3>
 <input placeholder="AccountID"  @bind="filterAccountID"  />
-<input style="margin-left:50px" placeholder="# to Display (default 100)"  @bind="filterAccountLimit"  />
-<label><input style="margin-left:50px" type="checkbox" @bind="onlyAccountsWithDelinquencies" > Only Deliquent Accounts</label>
+<input style="margin-left:50px" placeholder="# to Display (default 20)"  @bind="filterAccountLimit"  />
+<input style="margin-left:50px" placeholder="Item to Start (Default 0)"  @bind="filterStartIndex"  />
+<br />
+<br />
+<label><input type="checkbox" @bind="onlyAccountsWithDelinquencies" > Only Deliquent Accounts</label>
 <label><input style="margin-left:50px" type="checkbox" @bind="onlyAccountsWithChargeOff" > Only Charged Off Accounts</label>
+<label><input style="margin-left:50px" type="checkbox" @bind="onlyClosedAccounts" > Closed Accounts</label>
+<label><input style="margin-left:50px" type="checkbox" @bind="onlyInfoChanged" > Info Changed Between Periods</label>
 
 <br /><br />
 
 <button @onclick="btnFilter">Filter</button>
+
+<div style="padding-top:20px;">
+    Displaying: @if (metro2FilteredList.Count > 0)
+    {
+        if (metro2FilteredList.Count - currentIndex < maxFilter)
+        {
+            <label>@((metro2FilteredList.Count - currentIndex) + " - " + currentIndex + " out of " + metro2FilteredList.Count)</label>
+        }
+        else
+        {
+            <label>@((currentIndex - maxFilter) + " - " + currentIndex + " out of " + metro2FilteredList.Count)</label>
+        }
+
+    }
+</div>
 
 
 @foreach (var item in metro2ListToDisplay)
@@ -57,7 +74,10 @@
                 <br/>
                 Date Close:@(item.Group1.DateClosed.Substring(4,4) + "-" + item.Group1.DateClosed.Substring(0,2) + "-" + item.Group1.DateClosed.Substring(2,2) )
 
-
+                @if (item.privateInfoChangedBetweenPeriods.Length > 0)
+                {
+                    <label>Info Changed: @item.privateInfoChangedBetweenPeriods</label>
+                }
             </div>
             <div class="DetailsPayment">
                 <b>Payment Details</b>
@@ -81,9 +101,9 @@
                         <tr>
                             <td>@(item.Group1.DateOfAccountInfo.Substring(4,4) + "-" + item.Group1.DateOfAccountInfo.Substring(0,2) + "-" + item.Group1.DateOfAccountInfo.Substring(2,2) )</td>
                             <td>@item.Group1.AccountStatus</td>
-                            <td>@(item.Group1.PaymentRating.Length > 0? item.Group1.PaymentRating : "-"</td>
-                            <td>@(item.Group1.PaymentHistoryProfile.Length > 0? item.Group1.PaymentHistoryProfile : "-"</td>
-                            <td>@(item.Group1.SpecialComment.Length > 0? item.Group1.SpecialComment : "-"</td>
+                            <td>@(item.Group1.PaymentRating.Length > 0? item.Group1.PaymentRating : "-")</td>
+                            <td>@(item.Group1.PaymentHistoryProfile.Length > 0? item.Group1.PaymentHistoryProfile : "-")</td>
+                            <td>@(item.Group1.SpecialComment.Length > 0? item.Group1.SpecialComment : "-")</td>
                             <td>@(item.Group1.DateOfLastPayment.Length > 0 ? (item.Group1.DateOfLastPayment.Substring(4,4) + "-" + item.Group1.DateOfLastPayment.Substring(0,2) + "-" + item.Group1.DateOfLastPayment.Substring(2,2) ) : "-")</td>
                             <td>@(item.Group1.DateClosed != "00000000" ? (item.Group1.DateClosed.Substring(4,4) + "-" + item.Group1.DateClosed.Substring(0,2) + "-" + item.Group1.DateClosed.Substring(2,2) ) : "-")</td>
                             <td>@(item.Group1.CurrentBalance.TrimStart('0').Length > 0? item.Group1.CurrentBalance.TrimStart('0') : "-" )</td>
@@ -98,9 +118,9 @@
                             <tr>
                                 <td>@(item.Group2.DateOfAccountInfo.Substring(4,4) + "-" + item.Group2.DateOfAccountInfo.Substring(0,2) + "-" + item.Group2.DateOfAccountInfo.Substring(2,2) )</td>
                                 <td>@item.Group2.AccountStatus</td>
-                                <td>@(item.Group2.PaymentRating.Length > 0? item.Group2.PaymentRating : "-"</td>
-                                <td>@(item.Group2.PaymentHistoryProfile.Length > 0? item.Group2.PaymentHistoryProfile : "-"</td>
-                                <td>@(item.Group2.SpecialComment.Length > 0? item.Group2.SpecialComment : "-"</td>
+                                <td>@(item.Group2.PaymentRating.Length > 0? item.Group2.PaymentRating : "-")</td>
+                                <td>@(item.Group2.PaymentHistoryProfile.Length > 0? item.Group2.PaymentHistoryProfile : "-")</td>
+                                <td>@(item.Group2.SpecialComment.Length > 0? item.Group2.SpecialComment : "-")</td>
                                 <td>@(item.Group2.DateOfLastPayment.Length > 0 ? (item.Group2.DateOfLastPayment.Substring(4,4) + "-" + item.Group2.DateOfLastPayment.Substring(0,2) + "-" + item.Group2.DateOfLastPayment.Substring(2,2) ) : "-")</td>
                                 <td>@(item.Group2.DateClosed != "00000000" ? (item.Group2.DateClosed.Substring(4,4) + "-" + item.Group2.DateClosed.Substring(0,2) + "-" + item.Group2.DateClosed.Substring(2,2) ) : "-")</td>
                                 <td>@(item.Group2.CurrentBalance.TrimStart('0').Length > 0? item.Group2.CurrentBalance.TrimStart('0') : "-" )</td>
@@ -116,9 +136,9 @@
                             <tr>
                                 <td>@(item.Group3.DateOfAccountInfo.Substring(4,4) + "-" + item.Group3.DateOfAccountInfo.Substring(0,2) + "-" + item.Group3.DateOfAccountInfo.Substring(2,2) )</td>
                                 <td>@item.Group3.AccountStatus</td>
-                                <td>@(item.Group3.PaymentRating.Length > 0? item.Group3.PaymentRating : "-"</td>
-                                <td>@(item.Group3.PaymentHistoryProfile.Length > 0? item.Group3.PaymentHistoryProfile : "-"</td>
-                                <td>@(item.Group3.SpecialComment.Length > 0? item.Group3.SpecialComment : "-"</td>
+                                <td>@(item.Group3.PaymentRating.Length > 0? item.Group3.PaymentRating : "-")</td>
+                                <td>@(item.Group3.PaymentHistoryProfile.Length > 0? item.Group3.PaymentHistoryProfile : "-")</td>
+                                <td>@(item.Group3.SpecialComment.Length > 0? item.Group3.SpecialComment : "-")</td>
                                 <td>@(item.Group3.DateOfLastPayment.Length > 0 ? (item.Group3.DateOfLastPayment.Substring(4,4) + "-" + item.Group3.DateOfLastPayment.Substring(0,2) + "-" + item.Group3.DateOfLastPayment.Substring(2,2) ) : "-")</td>
                                 <td>@(item.Group3.DateClosed != "00000000" ? (item.Group3.DateClosed.Substring(4,4) + "-" + item.Group3.DateClosed.Substring(0,2) + "-" + item.Group3.DateClosed.Substring(2,2) ) : "-")</td>
                                 <td>@(item.Group3.CurrentBalance.TrimStart('0').Length > 0? item.Group3.CurrentBalance.TrimStart('0') : "-" )</td>
@@ -287,10 +307,15 @@
                 }
             </table>
         </div>
+
+     
+
     </div>
 }
 
-
+   <div style="width:100%;text-align:center;padding-bottom:50px;padding-top:50px">
+            <button @onclick="btnLoadMore">Load More</button>
+        </div>
 
 @code {
 
@@ -298,12 +323,18 @@
     private string? loadingTerm;
     private string filterAccountID ="";
     private string filterAccountLimit = "";
+    private string filterStartIndex = "";
     private bool onlyAccountsWithDelinquencies;
     private bool onlyAccountsWithChargeOff;
+    private bool onlyClosedAccounts;
+    private bool onlyInfoChanged;
     private List<Metro2Item> metro2RawList = new();
+    private List<Metro2Groups> metro2FilteredList = new();
     private List<Metro2Groups> metro2ListToDisplay = new();
 
     private int currentIndex = 0;
+
+    private int maxFilter = 20;
 
     private async void LoadFiles(InputFileChangeEventArgs e)
     {
@@ -318,12 +349,46 @@
         
     }
 
+    private void nextPage()
+    {
+        if (filterAccountLimit.Trim().Length > 0)
+            int.TryParse(filterAccountLimit,out maxFilter);
+        metro2ListToDisplay.Clear();
+        for (int i=0;i<maxFilter;i++)
+        {
+            if (metro2FilteredList.Count > currentIndex)
+            {
+                metro2ListToDisplay.Add(metro2FilteredList[currentIndex]);
+                currentIndex++;
+            }
+        }
+    }
+
+    private void btnLoadMore()
+    {
+        //currentIndex += maxFilter;
+        filterStartIndex = (currentIndex-1).ToString();
+        nextPage();
+
+    }
+
     private void btnFilter()
     {
         //I should use linq but I'm just going to manually do it
         //if they give me an accountID to filter, I'd just use that first
         Console.WriteLine("btnFilter clicked");
         metro2ListToDisplay.Clear();
+        metro2FilteredList.Clear();
+        currentIndex = 0;
+        if (filterAccountLimit.Length == 0)
+            maxFilter = 20;
+        else
+            maxFilter = int.Parse(filterAccountLimit);
+        
+        if (filterStartIndex.Length == 0)
+            currentIndex = 0;
+        else
+            currentIndex = int.Parse(filterStartIndex);
 
         if (filterAccountID.Trim().Length > 0)
         {
@@ -341,12 +406,8 @@
                                 orderby s.AccountID, s.TimeStamp descending
                                 select s).ToList();
 
-            int maxDisplay = 100;
-            if (filterAccountLimit.Trim().Length > 0)
-                int.TryParse(filterAccountLimit.Trim(), out maxDisplay);
             //This isn't efficient but it's easier, so I'm doing it cause I'm lazy
             List<Metro2Groups> tmp = loadGrouping(result);
-            int counter = 0;
             foreach (Metro2Groups i in tmp)
             {
                 bool found = true;
@@ -357,18 +418,23 @@
                 }
                 if (onlyAccountsWithChargeOff)
                 {
-                    if (i.Group1.AccountStatus != "97" && i.Group2.AccountStatus != "97" && i.Group3.AccountStatus != "97")
+                    if (i.Group1.AccountStatus != "97" && (i.Group2.AccountStatus != "97" || i.Group2.AccountStatus.Length == 0) && (i.Group3.AccountStatus != "97" || i.Group3.AccountStatus.Length == 0))
+                        found = false;
+                }
+                if (onlyClosedAccounts)
+                {
+                    if (i.Group1.DateClosed == "00000000" && (i.Group2.DateClosed == "00000000" || i.Group2.DateClosed.Length == 0) && (i.Group3.DateClosed == "00000000" || i.Group3.DateClosed.Length ==0))
+                        found = false;
+                }
+                if (onlyInfoChanged)
+                {
+                    if (i.privateInfoChangedBetweenPeriods.Length == 0)
                         found = false;
                 }
                 if (found)
-                {
-                    metro2ListToDisplay.Add(i);
-                    counter++;
-                }
-                if (counter > maxDisplay)
-                    return;
-                    
+                    metro2FilteredList.Add(i);
             }
+            nextPage();
         }
 
     }
@@ -416,7 +482,60 @@
             newGrouping.Group2 = item2;
             newGrouping.Group3 = item3;
             result.Add(newGrouping);
+
+            string privateInfoChanged = "";
+            if (item2.AccountID.Length > 0)
+            {
+                //check item 1 and 2 if anything is different
+                if (item1.City != item2.City)
+                    privateInfoChanged += "|City";
+                if (item1.FirstAddress != item2.FirstAddress)
+                    privateInfoChanged += "|FirstAddress";
+                if (item1.SecondAddress != item2.SecondAddress)
+                    privateInfoChanged += "|SecondAddress";
+                if (item1.Province != item2.Province)
+                    privateInfoChanged += "|Province";
+                if (item1.PostalCode != item2.PostalCode)
+                    privateInfoChanged += "|PostalCode";
+                if (item1.PhoneNumber != item2.PhoneNumber)
+                    privateInfoChanged += "|PhoneNumber";
+                if (item1.DOB != item2.DOB)
+                    privateInfoChanged += "|DOB";
+                if (item1.DateOpened != item2.DateOpened)
+                    privateInfoChanged += "|DateOpened";
+                if (item1.CreditLimit != item2.CreditLimit)
+                    privateInfoChanged += "|CreditLimit";
+                if (item1.DateClosed != item2.DateClosed)
+                    privateInfoChanged += "|DateClosed";
+            }
+            if (item3.AccountID.Length > 0)
+            {
+                //check item 1 and 2 if anything is different
+                if (item1.City != item3.City || item2.City != item3.City)
+                    privateInfoChanged += "|City";
+                if (item1.FirstAddress != item3.FirstAddress || item2.FirstAddress != item3.FirstAddress)
+                    privateInfoChanged += "|FirstAddress";
+                if (item1.SecondAddress != item3.SecondAddress || item2.SecondAddress != item3.SecondAddress)
+                    privateInfoChanged += "|SecondAddress";
+                if (item1.Province != item3.Province || item2.Province != item3.Province)
+                    privateInfoChanged += "|Province";
+                if (item1.PostalCode != item3.PostalCode || item2.PostalCode != item3.PostalCode)
+                    privateInfoChanged += "|PostalCode";
+                if (item1.PhoneNumber != item3.PhoneNumber || item2.PhoneNumber != item3.PhoneNumber)
+                    privateInfoChanged += "|PhoneNumber";
+                if (item1.DOB != item3.DOB || item2.DOB != item3.DOB)
+                    privateInfoChanged += "|DOB";
+                if (item1.DateOpened != item3.DateOpened || item2.DateOpened != item3.DateOpened)
+                    privateInfoChanged += "|DateOpened";
+                if (item1.CreditLimit != item3.CreditLimit || item2.CreditLimit != item3.CreditLimit)
+                    privateInfoChanged += "|CreditLimit";
+                if (item1.DateClosed != item3.DateClosed || item2.DateClosed != item3.DateClosed)
+                    privateInfoChanged += "|DateClosed";
+            }
+            newGrouping.privateInfoChangedBetweenPeriods = privateInfoChanged;
         }
+        
+        
         return result;
     }
 
@@ -489,4 +608,3 @@
 
     }
 }
-

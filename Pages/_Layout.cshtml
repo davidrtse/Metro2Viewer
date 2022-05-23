@@ -12,6 +12,13 @@
     <link href="css/site.css" rel="stylesheet" />
     <link href="Metro2Viewer.styles.css" rel="stylesheet" />
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <script>
+        // When the user clicks the button, the page scrolls to the top
+        function OnScrollEvent() {
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+    
 </head>
 <body>
     @RenderBody()

@@ -98,39 +98,6 @@
         }
       },
       {
-        "HashCode": -695938940,
-        "Kind": "Components.Component",
-        "Name": "Metro2Viewer.Pages.Index",
-        "AssemblyName": "Metro2Viewer",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "Metro2Viewer.Pages.Index"
-        }
-      },
-      {
-        "HashCode": 461297307,
-        "Kind": "Components.Component",
-        "Name": "Metro2Viewer.Pages.Index",
-        "AssemblyName": "Metro2Viewer",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Metro2Viewer.Pages.Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "Metro2Viewer.Pages.Index",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
         "HashCode": -1123254382,
         "Kind": "Components.Component",
         "Name": "Metro2Viewer.Pages.Todo",
@@ -164,6 +131,39 @@
         }
       },
       {
+        "HashCode": -695938940,
+        "Kind": "Components.Component",
+        "Name": "Metro2Viewer.Pages.Index",
+        "AssemblyName": "Metro2Viewer",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "Metro2Viewer.Pages.Index"
+        }
+      },
+      {
+        "HashCode": 461297307,
+        "Kind": "Components.Component",
+        "Name": "Metro2Viewer.Pages.Index",
+        "AssemblyName": "Metro2Viewer",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Metro2Viewer.Pages.Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "Metro2Viewer.Pages.Index",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
         "HashCode": -1896756017,
         "Kind": "Components.Component",
         "Name": "Metro2Viewer.App",
@@ -193,6 +193,39 @@
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
           "Common.TypeName": "Metro2Viewer.App",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": 180406229,
+        "Kind": "Components.Component",
+        "Name": "Metro2Viewer.Shared.NavMenu",
+        "AssemblyName": "Metro2Viewer",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "NavMenu"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "Metro2Viewer.Shared.NavMenu"
+        }
+      },
+      {
+        "HashCode": 260781129,
+        "Kind": "Components.Component",
+        "Name": "Metro2Viewer.Shared.NavMenu",
+        "AssemblyName": "Metro2Viewer",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Metro2Viewer.Shared.NavMenu"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "Metro2Viewer.Shared.NavMenu",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -342,39 +375,6 @@
           "Runtime.Name": "Components.None",
           "Common.TypeName": "Metro2Viewer.Shared.MainLayout.Body",
           "Components.IsSpecialKind": "Components.ChildContent",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": 180406229,
-        "Kind": "Components.Component",
-        "Name": "Metro2Viewer.Shared.NavMenu",
-        "AssemblyName": "Metro2Viewer",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "NavMenu"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "Metro2Viewer.Shared.NavMenu"
-        }
-      },
-      {
-        "HashCode": 260781129,
-        "Kind": "Components.Component",
-        "Name": "Metro2Viewer.Shared.NavMenu",
-        "AssemblyName": "Metro2Viewer",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Metro2Viewer.Shared.NavMenu"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "Metro2Viewer.Shared.NavMenu",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },

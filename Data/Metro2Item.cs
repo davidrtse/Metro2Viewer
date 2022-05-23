@@ -3,6 +3,8 @@ public class Metro2Groups
     public Metro2Item? Group1 {get;set; } = new Metro2Item();
     public Metro2Item? Group2 {get;set; }  = new Metro2Item();
     public Metro2Item? Group3 {get;set; } = new Metro2Item();
+
+    public string privateInfoChangedBetweenPeriods {get;set;} = "";
 }
 
 public class Metro2Item
